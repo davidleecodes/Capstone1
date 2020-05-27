@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+<!--  -->
+{%block content%}
+<div id="data" data-type="{{type}}" data-location="{{location}}"></div>
+<form id="search">
+  <div class="form-row justify-content-center">
+    <div class="col-md-3">
+      <input
+        class="form-control"
+        type="text"
+        name="location"
+        id="location"
+        placeholder="zip code"
+      />
+    </div>
+    <div class="col-md-3">
+      <select class="form-control" id="type" name="type" placeholder="type">
+        <option disabled selected>Type...</option>
+        <option>cat</option>
+        <option>dog</option>
+        <option></option>
+      </select>
+    </div>
+    <div class="col-md-1">
+      <button class="btn btn-primary" id="search-sumbit">search</button>
+    </div>
+  </div>
+
+  <!--  -->
+  <div class="text-center mt-5">
+    {%if location and type%}
+    <h2>Showing {{type}}s in {{location}}</h2>
+    {%elif type%}
+    <h2>Showing {{type}}</h2>
+    {%elif location%}
+    <h2>Showing pets in {{location}}</h2>
+    {%else%} {%endif%}
+  </div>
+
+  <!--  -->
+  <div id="pet-clone" class="d-none">
+    <div class="pet col-md-3 my-3">
+      <div class="card">
+        <a class="card-img-top overflow-hidden" style="height: 300px;">
+          <img class="pet-img w-100 h-auto" />
+        </a>
+
+        <div class="card-body">
+          <h5 class="pet-name text-truncate"></h5>
+          <p class="distance"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--  -->
+  <div id="pet-list" class="d-flex flex-wrap"></div>
+  <!--  -->
+  <script type="module" src="/static/petsList.js"></script>
+
+  {%endblock%}
+</form>

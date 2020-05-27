@@ -1,0 +1,100 @@
+{%extends 'base.html'%}
+<!--  -->
+{%block content%}
+<div id="data" data-pets="{{pets}}"></div>
+
+<div class="text-center">
+  <h1>{{renter.username}}</h1>
+<p class="my-0">{{renter.email}}</p>
+  <span>zip code: </span><span>{{renter.location}}</span>
+  <br>
+  <a href="/renter/edit" ">edit info</a>
+</div>
+
+
+
+<!--  -->
+{%if  currBookings%}
+<h3 class="mt-5">current bookings</h3>
+
+<div id="curr-pet-list" class="d-flex flex-wrap">
+  {%for b in currBookings%}
+  <div class="pet col-md-3 my-3" data-id="{{b.pet_id}}">
+    <div class="card">
+      <a
+        class="card-img-top overflow-hidden"
+        href="/pet/{{b.pet_id}}"
+        style="height: 300px;"
+      >
+        <img class="pet-img w-100" />
+    </a>
+
+      <div class="card-body">
+        <h5 class="pet-name"></h5>
+        <p>{{b.startTime}}</p>
+        <p>{{b.endTime}}</p>
+        <div class="mb-3">
+          <span class="avg"></span><i class="fa fa-star"></i>
+        </div>
+
+        <a
+          id="edit"
+          class="btn btn-light"
+          href="/pet/{{b.pet_id}}/booking/{{b.id}}/edit"
+          >edit</a
+        >
+        <a
+          id="cancel"
+          class="btn btn-light"
+          href="/pet/{{b.pet_id}}/booking/{{b.id}}/cancel"
+          >cancel</a
+        >
+      </div>
+    </a>
+  </div>
+</div>
+
+  {%endfor%}
+</div>
+{%endif%}
+
+
+<!--  -->
+
+{%if  pastBookings%}
+
+<h3  class="mt-5">past bookings</h3>
+
+<div id="past-pet-list" class="d-flex flex-wrap">
+  {%for b in pastBookings%}
+  <div class="pet col-md-3 my-3" data-id="{{b.pet_id}}" data-bookid="{{b.id}}">
+    <div class="card">
+      <a class="card-img-top overflow-hidden" style="height: 300px;"  href="/pet/{{b.pet_id}}">
+        <img class="pet-img w-100" />
+      </a>
+
+      <div class="card-body">
+        <h5 class="pet-name"></h5>
+        <p>{{b.startTime}}</p>
+        <p>{{b.endTime}}</p>
+
+            <div class='rating text-black-50' data-rating='{{b.rating}}'>
+                <i class="fa fa-star "></i>
+                <i class="fa fa-star "></i>
+                <i class="fa fa-star "></i>
+                <i class="fa fa-star "></i>
+                <i class="fa fa-star "></i>
+            </div>
+    
+
+      </div>
+    </div>
+  </div>
+  {%endfor%}
+</div>
+{%endif%}
+
+<!--  -->
+<script type="module" src="/static/renter.js"></script>
+
+{%endblock%}

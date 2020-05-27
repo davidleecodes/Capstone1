@@ -1,0 +1,43 @@
+{%extends 'base.html'%}
+<!--  -->
+{%block content%}
+<div class="row">
+  <div class="pet col-6" data-id="{{id}}">
+    <div class="overflow-hidden rounded-lg">
+      <img class="pet-img w-100" />
+    </div>
+  </div>
+
+  <div class="col-6">
+    <p>Editing Booking</p>
+    {% if form %}
+    <form method="POST" id="user_form">
+      {{ form.hidden_tag() }}
+      <!--  -->
+      <div class="form-row">
+        {% for field in form if field.widget.input_type != 'hidden' %}
+        <!--  -->
+        <div class="col">
+          {% for error in field.errors %}
+          <span class="text-danger">{{ error }}</span>
+          {% endfor %}
+          <!--  -->
+          {{ field.label }} {{ field( class="form-control") }}
+          <!--  -->
+        </div>
+        {% endfor %}
+      </div>
+      <button class="btn btn-primary my-4">save changes</button>
+    </form>
+    {%else%}
+    <div>log in or sign up to book</div>
+    <li><a href="/signup">Sign up</a></li>
+    <li><a href="/login">Log in</a></li>
+    {%endif%}
+  </div>
+</div>
+
+<script type="module" src="/static/pet.js"></script>
+
+<!--  -->
+{%endblock%}
