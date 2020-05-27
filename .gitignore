@@ -1,4 +1,4 @@
 venv/
-# secrets.py
+secrets.py
 *.pyc
 *.pyo

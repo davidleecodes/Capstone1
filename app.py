@@ -9,7 +9,12 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Renter, Booking
 from forms import PetForm, RenterForm, LoginForm, BookRatingForm
-from secrets import API_SECRET_KEY, API_ID
+try:
+    API_SECRET_KEY = os.environ['API_SECRET_KEY']
+    API_ID = os.environ['API_ID']
+except KeyError:
+    print("error")
+    from secrets import API_SECRET_KEY, API_ID
 
 app = Flask(__name__)
 # Get DB_URI from environ variable (useful for production/testing) or,
