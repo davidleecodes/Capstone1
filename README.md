@@ -11,6 +11,9 @@ Having dates disable when the user is choosing dates, felt more user friendly ra
 Updating ratings take place in the background rather refresh the page, so the page does not have to reload
 
 api : https://www.petfinder.com/developers/v2/docs/
+
 database: psql
+
 serverside: python, flask, jinja, wtforms, flask-sqlalchemy
+
 clientside: jquery, bootstrap, jquery-ui
