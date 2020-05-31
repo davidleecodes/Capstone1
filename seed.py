@@ -6,17 +6,6 @@ import datetime
 db.drop_all()
 db.create_all()
 
-# pet1 = Pet(
-#     id=48038022,
-#     rating=5
-# )
-
-
-# pet2 = Pet(
-#     id=48037970,
-#     rating=5
-# )
-
 
 renter1 = Renter(
     id=100,

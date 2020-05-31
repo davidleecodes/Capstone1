@@ -91,7 +91,7 @@ class Booking(db.Model):
             if rating == 0:
                 return "not yet rated"
             else:
-                return float(rating)
+                return str(float(rating))
         else:
             return "not yet rated"
 

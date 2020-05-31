@@ -3,16 +3,9 @@ export default class PetApi {
     this.token;
   }
 
-  async getToken() {
-    const resp = await axios.get("/api/get-token");
-    // console.log(resp.data.token);
-    this.token = resp.data.token;
-    return this.token;
-  }
-
   async getPets(type, location) {
     const resp = await axios.post("/api/get-pets", {
-      token: this.token,
+      // token: this.token,
       type: type,
       location: location,
     });

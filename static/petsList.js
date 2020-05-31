@@ -6,7 +6,7 @@ start();
 async function start() {
   let type = $("#data").data("type");
   let location = $("#data").data("location");
-  await petApi.getToken();
+  // await petApi.getToken();
   let pets = await petApi.getPets(type, location);
   createPetList(pets);
 }

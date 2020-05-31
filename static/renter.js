@@ -5,7 +5,6 @@ let petApi = new PetApi();
 start();
 
 async function start() {
-  await petApi.getToken();
   let $currPets = $("#curr-pet-list > .pet");
   fillPetList($currPets);
   let $pastPets = $("#past-pet-list > .pet");

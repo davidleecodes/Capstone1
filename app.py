@@ -6,6 +6,7 @@ from flask import Flask, redirect, render_template, request, session, g, jsonify
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import func
 from flask_debugtoolbar import DebugToolbarExtension
+import threading
 
 from models import db, connect_db, Renter, Booking
 from forms import PetForm, RenterForm, LoginForm, BookRatingForm
@@ -32,7 +33,7 @@ connect_db(app)
 
 API_TOKEN = "api_token"
 CURR_RENTER_KEY = "curr_renter"
-
+API_TOKEN_TIME = "api_token_time"
 
 ##############################################################################
 # User signup/login/logout
@@ -135,25 +136,33 @@ def logout():
 # api
 ##############################################################################
 
+#
+#
 
-@app.route("/api/get-token", methods=["GET"])
-def get_new_token():
-    """returns new token "expires_in": 3600"""
-    token_request = requests.post("https://api.petfinder.com/v2/oauth2/token", json={
-        "grant_type": "client_credentials",
-        "client_id": API_ID,
-        "client_secret": API_SECRET_KEY
-    })
-    access_token = {"token": token_request.json().get("access_token")}
-    # print(access_token)
-    # session[API_TOKEN] = access_token
-    return jsonify(access_token)
+
+def get_token():
+    if API_TOKEN in session and API_TOKEN_TIME in session and datetime.datetime.now() < session[API_TOKEN_TIME] + datetime.timedelta(hours=1):
+        print("session token")
+        return session[API_TOKEN]
+    else:
+        print("new token")
+        token_request = requests.post("https://api.petfinder.com/v2/oauth2/token", json={
+            "grant_type": "client_credentials",
+            "client_id": API_ID,
+            "client_secret": API_SECRET_KEY
+        })
+        access_token = token_request.json().get("access_token")
+        session[API_TOKEN] = access_token
+        session[API_TOKEN_TIME] = datetime.datetime.now()
+        print(session[API_TOKEN_TIME])
+        return access_token
 
 
 @app.route("/api/get-pets", methods=["POST"])
 def get_pets():
     """return pets"""
-    token = request.json.get("token")
+    token = get_token()
+    # print(token)
     type = request.json.get("type")
     location = request.json.get("location")
     params = {}
@@ -172,7 +181,7 @@ def get_pets():
 @app.route("/api/get-pet", methods=["POST"])
 def get_pet():
     """return pet with id"""
-    token = request.json.get("token")
+    token = get_token()
     id = request.json.get("id")
     # print(id)
     resp = requests.get(f" https://api.petfinder.com/v2/animals/{id}", headers={
@@ -180,7 +189,6 @@ def get_pet():
     rating = Booking.avg_rating(id=id)
     resp_json = resp.json()
     resp_json["rating"] = rating
-
     # print(resp_json)
     return jsonify(resp_json)
 
@@ -188,6 +196,7 @@ def get_pet():
 ##############################################################################
 # Booking
 ##############################################################################
+
 
 @app.route("/pet/<int:pet_id>", methods=["GET", "POST"])
 def pet(pet_id):
@@ -225,13 +234,8 @@ def pet(pet_id):
 @app.route("/pet/<int:pet_id>/booking/<int:book_id>/cancel", methods=["GET", "POST"])
 def booking_cancel(pet_id, book_id):
     "delete booking"
-    if not g.renter:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
     book = Booking.query.get_or_404(book_id)
-    if book.renter_id != g.renter.id:
-        flash("Access unauthorized.", "danger")
+    if is_not_renter_book_match(book):
         return redirect("/")
 
     db.session.delete(book)
@@ -244,13 +248,8 @@ def booking_cancel(pet_id, book_id):
 def booking_edit(pet_id, book_id):
     "return edit booking page"
 
-    if not g.renter:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
     book = Booking.query.get_or_404(book_id)
-    if book.renter_id != g.renter.id:
-        flash("Access unauthorized.", "danger")
+    if is_not_renter_book_match(book):
         return redirect("/")
 
     form = PetForm(obj=book)
@@ -266,14 +265,8 @@ def booking_edit(pet_id, book_id):
 @app.route("/booking/<int:book_id>/rating", methods=["POST"])
 def booking_rating(book_id):
     "rate booking "
-
-    if not g.renter:
-        flash("Access unauthorized.", "danger")
-        return redirect("/")
-
     book = Booking.query.get_or_404(book_id)
-    if book.renter_id != g.renter.id:
-        flash("Access unauthorized.", "danger")
+    if is_not_renter_book_match(book):
         return redirect("/")
 
     form = BookRatingForm(obj=request.json, meta={'csrf': False})
@@ -310,9 +303,7 @@ def homepage():
 @app.route("/renter")
 def renter_show():
     """show renter profile"""
-    print("____g", g.renter)
-    if not g.renter:
-        flash("Access unauthorized.", "danger")
+    if is_not_renter():
         return redirect("/")
     pastBookings = Booking.query.filter(Booking.renter_id == g.renter.id).filter(
         Booking.endTime < datetime.date.today()
@@ -330,10 +321,8 @@ def renter_show():
 @app.route("/renter/edit", methods=['GET', 'POST'])
 def renter_edit():
     """update renter profile"""
-    if not g.renter:
-        flash("Access unauthorized.", "danger")
+    if is_not_renter():
         return redirect("/")
-
     renter = g.renter
     form = RenterForm(obj=renter)
 
@@ -349,3 +338,23 @@ def renter_edit():
         flash("Wrong password, please try again.", 'danger')
 
     return render_template('renter/edit.html', form=form, renter_id=renter.id)
+
+
+def is_not_renter_book_match(book):
+    if not g.renter:
+        flash("Access unauthorized.", "danger")
+        return True
+    if book.renter_id != g.renter.id:
+        flash("Access unauthorized.", "danger")
+        return True
+    return False
+
+
+def is_not_renter():
+    print("____g", g.renter)
+
+    if not g.renter:
+        flash("Access unauthorized.", "danger")
+        return True
+    else:
+        return False

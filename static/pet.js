@@ -7,15 +7,12 @@ start();
 async function start() {
   let id = $(".pet").data("id");
   console.log("id", id);
-  await petApi.getToken();
   let data = await petApi.getPet(id);
   let pet = data.animal;
   createPet(pet);
 }
 
 function createPet(p) {
-  // console.log(p);
-
   let photo = p.photos[0] ? p.photos[0].medium : "";
   let $pet = $(".pet");
   $pet.data("id", p.id);
@@ -27,8 +24,7 @@ function createPet(p) {
   $pet.find(".pet-description").text(p.description);
 }
 
-let dates = $("#book_form").data("booked");
-// console.log(dates);
+let dates = $("#book_form").data("booked") || [];
 let $start = $('input[name="start_date"]');
 let $end = $('input[name="end_date"]');
 let today = new Date().toISOString().slice(0, 10);
