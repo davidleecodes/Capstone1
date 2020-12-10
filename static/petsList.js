@@ -6,7 +6,6 @@ start();
 async function start() {
   let type = $("#data").data("type");
   let location = $("#data").data("location");
-  // await petApi.getToken();
   let pets = await petApi.getPets(type, location);
   createPetList(pets);
 }
@@ -21,6 +20,9 @@ function createPetList(pets) {
     $newPet.find(".card-img-top").attr("href", `/pet/${p.id}`);
     $newPet.find(".pet-name").text(p.name);
     $newPet.find(".pet-img").attr("src", photo);
+    if (photo) {
+      $newPet.find(".fa-paw").hide();
+    }
     if (p.distance != null) {
       let distance = Math.round(p.distance * 10) / 10;
       $newPet.find(".distance").text(`${distance} miles away`);

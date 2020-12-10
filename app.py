@@ -112,6 +112,7 @@ def login():
     if form.validate_on_submit():
         renter = Renter.authenticate(form.username.data,
                                      form.password.data)
+        print("RENTER",renter,form.username.data,form.password.data)
 
         if renter:
             do_login(renter)
@@ -121,6 +122,16 @@ def login():
         flash("Invalid credentials.", 'danger')
 
     return render_template('renter/login.html', form=form)
+
+@app.route('/demo', methods=["GET"])
+def demo():
+    """Handle user login."""
+    renter = Renter.authenticate("SAM","sampass")
+    print("RENTER",renter)
+    do_login(renter)
+    flash(f"Hello, {renter.username}!", "success")
+    return redirect(url_for('pets'))
+
 
 
 @app.route('/logout')

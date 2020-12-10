@@ -17,6 +17,12 @@ function createPet(p) {
   let $pet = $(".pet");
   $pet.data("id", p.id);
   $pet.find(".pet-img").attr("src", photo);
+  if (photo) {
+    $pet.find(".fa-paw").hide();
+  } else {
+    $pet.find(".pet-img").hide();
+  }
+
   $pet.find(".pet-name").text(p.name);
   $pet.find(".pet-breed").text(p.breeds.primary);
   $pet.find(".pet-gender").text(p.gender);

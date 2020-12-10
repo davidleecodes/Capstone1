@@ -13,7 +13,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
     />
     <!-- <script src=" https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script> -->
     <script
@@ -39,6 +39,9 @@
             <a href="/signup" class="nav-link">Sign Up</a>
           </li>
           <li class="nav-item"><a href="/login" class="nav-link">Log In</a></li>
+          <li class="nav-item demo">
+            <a href="/demo" class="nav-link">Demo</a>
+          </li>
           {% else %}
           <li class="nav-item">
             <a href="/renter" class="nav-link">{{ g.renter.username }}</a>
@@ -50,7 +53,7 @@
         </ul>
       </div>
     </nav>
-    <div class="container my-5">
+    <div class="container container-md my-5" style="min-width: 500px">
       {% for category, message in get_flashed_messages(with_categories=True) %}
       <div class="alert alert-{{ category }}">{{ message }}</div>
       {% endfor %} {% block content %} {% endblock %}

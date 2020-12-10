@@ -1,6 +1,7 @@
 {% extends 'base.html'%}
 <!--  -->
 {%block content%}
+<h2 class="text-center">Support an adoption center. Rent a pet</h2>
 <div id="data" data-type="{{type}}" data-location="{{location}}"></div>
 <form id="search">
   <div class="form-row justify-content-center">
@@ -39,10 +40,14 @@
 
   <!--  -->
   <div id="pet-clone" class="d-none">
-    <div class="pet col-md-3 my-3">
+    <div class="pet col-md-3 col-6 my-3">
       <div class="card">
-        <a class="card-img-top overflow-hidden" style="height: 300px;">
-          <img class="pet-img w-100 h-auto" />
+        <a
+          class="card-img-top overflow-hidden d-flex justify-content-center align-items-center"
+          style="height: 300px; background: lightgray"
+        >
+          <img class="pet-img w-auto" style="min-height: 300px" />
+          <i class="fas fa-paw text-white" style="font-size: 10em"></i>
         </a>
 
         <div class="card-body">
@@ -53,6 +58,7 @@
     </div>
   </div>
   <!--  -->
+
   <div id="pet-list" class="d-flex flex-wrap"></div>
   <!--  -->
   <script type="module" src="/static/petsList.js"></script>

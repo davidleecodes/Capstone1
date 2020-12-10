@@ -3,8 +3,21 @@
 {%block content%}
 <div class="row">
   <div class="pet col-6" data-id="{{id}}">
-    <div class="overflow-hidden rounded-lg">
-      <img class="pet-img w-100" />
+    <div
+      class="overflow-hidden rounded-lg"
+      style="height: 400px; background: lightgray"
+    >
+      <img class="pet-img w-100" style="min-height: 400px" />
+      <i
+        class="fas fa-paw text-white"
+        style="
+          font-size: 10em;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        "
+      ></i>
     </div>
   </div>
 
@@ -50,6 +63,8 @@
     <div>log in or sign up to book</div>
     <li><a href="/signup">Sign up</a></li>
     <li><a href="/login">Log in</a></li>
+    <li><a class="demo" href="/demo">Demo</a></li>
+
     {%endif%}
   </div>
 </div>
