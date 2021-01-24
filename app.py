@@ -176,12 +176,15 @@ def get_pets():
     # print(token)
     type = request.json.get("type")
     location = request.json.get("location")
+    page = request.json.get("page")
     params = {}
     if type != "None":
         params["type"] = type
     if location != "None" and location != "":
         params["location"] = location
         params["sort"] = "distance"
+    if page!= "None":
+        params["page"]=page
     # print(type, location, params)
     resp = requests.get(f" https://api.petfinder.com/v2/animals", params=params, headers={
         "Authorization": f"Bearer {token}"})
@@ -203,7 +206,18 @@ def get_pet():
     # print(resp_json)
     return jsonify(resp_json)
 
-
+@app.route("/api/get-types", methods=["POST"])
+def get_types():
+    """return pet types"""
+    token = get_token()
+    resp = requests.get(f" https://api.petfinder.com/v2/types", headers={
+        "Authorization": f"Bearer {token}"})
+    print(resp)
+    # rating = Booking.avg_rating(id=id)
+    resp_json = resp.json()
+    # resp_json["rating"] = rating
+    # print(resp_json)
+    return jsonify(resp_json)
 ##############################################################################
 # Booking
 ##############################################################################
@@ -298,8 +312,11 @@ def pets():
 
     # print(location)
     type = request.args.get("type")
+    page = request.args.get("page") 
+    if page == None:
+        page =1
 
-    return render_template('petList.html',  location=location, type=type)
+    return render_template('petList.html',  location=location, type=type, page=page)
 
 
 @app.route("/")

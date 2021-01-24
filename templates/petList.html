@@ -2,7 +2,7 @@
 <!--  -->
 {%block content%}
 <h2 class="text-center">Support an adoption center. Rent a pet</h2>
-<div id="data" data-type="{{type}}" data-location="{{location}}"></div>
+<div id="data" data-type="{{type}}" data-location="{{location}}"" data-page="{{page}}"></div>
 <form id="search">
   <div class="form-row justify-content-center">
     <div class="col-md-3">
@@ -15,11 +15,14 @@
       />
     </div>
     <div class="col-md-3">
-      <select class="form-control" id="type" name="type" placeholder="type">
+      <select
+        class="form-control pet-types"
+        id="type"
+        name="type"
+        placeholder="type"
+      >
         <option disabled selected>Type...</option>
-        <option>cat</option>
-        <option>dog</option>
-        <option></option>
+
       </select>
     </div>
     <div class="col-md-1">
@@ -60,6 +63,24 @@
   <!--  -->
 
   <div id="pet-list" class="d-flex flex-wrap"></div>
+
+  <div class="row justify-content-center mt-5">
+    <div d="page-nav" class="input-group  col-sm-6 ">
+      <button class="btn btn-secondary prev" type="button" id="button-addon1">PREV</button>
+      <select
+      class="form-control mx-3"
+      id="page-name"
+      name="page-name"
+      placeholder="page-name"
+    ></select>
+      <button class="btn btn-secondary next " type="button" id="button-addon1">NEXT</button>
+    </div>
+
+  </div>
+
+
+
+ 
   <!--  -->
   <script type="module" src="/static/petsList.js"></script>
 
