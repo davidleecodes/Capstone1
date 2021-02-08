@@ -69,20 +69,25 @@ function createPetList(pets) {
 }
 
 function queryBuild() {
+  console.log($("#location").val());
+
   let qType = $("#type").find("option:selected").data("link");
   if (!qType && type !== "None") qType = type;
-  let qLocation = $("#location").val() || location;
+  let qLocation;
+  if ($("#location").val()) qLocation = $("#location").val();
+  else if (location != "None") qLocation = location;
   let query = "?";
 
   if (qType && qLocation) query += `type=${qType}&location=${qLocation}`;
   else if (qType) query += `type=${qType}`;
   else if (qLocation) query += `location=${qLocation}`;
-  console.log(query, qLocation, qType);
+  console.log(query, qLocation, qType, location, $("#location").val());
   return query;
 }
 
 $("#search-sumbit").on("click", async function (e) {
   e.preventDefault();
+  // console.log(queryBuild());
   window.location = queryBuild();
 });
 
