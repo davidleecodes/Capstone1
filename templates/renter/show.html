@@ -19,18 +19,18 @@
 
 <div id="curr-pet-list" class="d-flex flex-wrap">
   {%for b in currBookings%}
-  <div class="pet col-md-3 my-3" data-id="{{b.pet_id}}">
-    <div class="card">
+  <div class="pet col-md-3 col-6 my-3" data-id="{{b.pet_id}}">
+    <div class="card text-center  overflow-hidden">
       <a
-        class="card-img-top overflow-hidden"
+      class="card-img-top overflow-hidden d-flex justify-content-center align-items-center"
         href="/pet/{{b.pet_id}}"
-        style="height: 300px;"
+        style="height: 250px;"
       >
-        <img class="pet-img w-100" />
+      <img class="pet-img w-auto" style="min-height: 250px" />
     </a>
 
       <div class="card-body">
-        <h5 class="pet-name"></h5>
+        <h4 class="pet-name text-primary"></h4>
         <p>{{b.startTime}}</p>
         <p>{{b.endTime}}</p>
         <div class="mb-3">
@@ -67,14 +67,14 @@
 
 <div id="past-pet-list" class="d-flex flex-wrap">
   {%for b in pastBookings%}
-  <div class="pet col-md-3 my-3" data-id="{{b.pet_id}}" data-bookid="{{b.id}}">
-    <div class="card">
-      <a class="card-img-top overflow-hidden" style="height: 300px;"  href="/pet/{{b.pet_id}}">
-        <img class="pet-img w-100" />
+  <div class="pet col-md-3  col-6 my-3" data-id="{{b.pet_id}}" data-bookid="{{b.id}}">
+    <div class="card text-center  overflow-hidden">
+      <a class="card-img-top overflow-hidden d-flex justify-content-center align-items-center" style="height: 250px;"  href="/pet/{{b.pet_id}}">
+        <img class="pet-img w-auto" style="min-height: 250px" />
       </a>
 
       <div class="card-body">
-        <h5 class="pet-name"></h5>
+        <h4 class="pet-name  text-primary"></h4>
         <p>{{b.startTime}}</p>
         <p>{{b.endTime}}</p>
 

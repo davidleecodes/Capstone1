@@ -284,7 +284,7 @@ def booking_edit(pet_id, book_id):
         db.session.commit()
         return redirect(f"/renter")
     else:
-        return render_template("booking_edit.html", id=pet_id, form=form, editing=True)
+        return render_template("pet.html", id=pet_id, form=form, editing=True)
 
 
 @app.route("/booking/<int:book_id>/rating", methods=["POST"])

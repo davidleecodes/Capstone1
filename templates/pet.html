@@ -1,75 +1,85 @@
-{%extends 'base.html'%}
+{%extends 'base_info.html'%}
 <!--  -->
 {%block content%}
-<div class="row">
-  <div class="pet col-6" data-id="{{id}}">
-    <div
-      class="overflow-hidden rounded-lg"
-      style="height: 400px; background: lightgray"
-    >
-      <img class="pet-img w-100" style="min-height: 400px" />
-      <i
-        class="fas fa-paw text-white"
-        style="
-          font-size: 10em;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-        "
-      ></i>
+
+<div class="pet col-12 mb-5" data-id="{{id}}">
+  <div
+    class="pet-container overflow-hidden d-flex justify-content-center align-items-center"
+    style="height: 400px; background: lightgray"
+  >
+    <img class="pet-img h-100 w-auto" src="" />
+    <i class="fas fa-paw text-white" style="font-size: 10em"></i>
+  </div>
+</div>
+
+<div class="row g-2">
+  <div class="col-6">
+    <div class="card">
+      <div class="pet card-body">
+        <h1 class="pet-name display-5 text-primary"></h1>
+        <div>
+          <h6 class="pet-breed mr-2 d-inline"></h6>
+          <h6 class="pet-city mr-2 d-inline"></h6>
+          <span>{{rating}}</span><i class="fa fa-star"></i>
+        </div>
+        <hr />
+        <div>
+          <h6 class="pet-age mr-2 d-inline"></h6>
+          <h6 class="pet-gender mr-2 d-inline"></h6>
+          <h6 class="pet-size mr-2 d-inline"></h6>
+        </div>
+        <hr />
+        <div class="about"></div>
+        <hr />
+
+        <p class="pet-description mt-4 mb-5"></p>
+      </div>
     </div>
   </div>
 
   <div class="col-6">
-    {%if editing%}
-    <p>Editing Booking</p>
-    {%else%}
-    <div class="pet">
-      <h1 class="pet-name"></h1>
-      <div>
-        <h6 class="pet-breed mr-2 d-inline"></h6>
-        <h6 class="pet-gender mr-2 d-inline"></h6>
-        <h6 class="pet-city mr-2 d-inline"></h6>
-        <span>{{rating}}</span><i class="fa fa-star"></i>
+    <div class="card h-100">
+      <div class="card-body">
+        {%if editing%}
+        <h3 class="text-center">Editing Booking</h3>
+        {%else%}
+        <h3 class="text-center">Foster Today</h3>
+        {%endif%} {% if form %}
+        <form method="POST" id="book_form" data-booked="{{booked}}">
+          {{ form.hidden_tag() }}
+          <!--  -->
+          <div class="form-row">
+            {% for field in form if field.widget.input_type != 'hidden' %}
+            <!--  -->
+            <div class="col">
+              {{ field.label }} {{ field( class="form-control") }}
+              <!--  -->
+              {% for error in field.errors %}
+              <span class="text-danger">{{ error }}</span>
+              {% endfor %}
+              <!--  -->
+            </div>
+            {% endfor %}
+          </div>
+          {%if editing%}
+          <button class="btn btn-primary my-4 float-end">SAVE</button>
+
+          {%else%}
+          <button class="btn btn-primary my-4 float-end">BOOK</button>
+          {%endif%}
+        </form>
+        {%else%}
+        <div>log in or sign up to book</div>
+        <li><a href="/signup">Sign up</a></li>
+        <li><a href="/login">Log in</a></li>
+        <li><a class="demo" href="/demo">Demo</a></li>
+
+        {%endif%}
       </div>
-      <p class="pet-description mt-4 mb-5"></p>
     </div>
-    {%endif%} {% if form %}
-    <form method="POST" id="book_form" data-booked="{{booked}}">
-      {{ form.hidden_tag() }}
-      <!--  -->
-      <div class="form-row">
-        {% for field in form if field.widget.input_type != 'hidden' %}
-        <!--  -->
-        <div class="col">
-          {{ field.label }} {{ field( class="form-control") }}
-          <!--  -->
-          {% for error in field.errors %}
-          <span class="text-danger">{{ error }}</span>
-          {% endfor %}
-          <!--  -->
-        </div>
-        {% endfor %}
-      </div>
-      {%if editing%}
-      <button class="btn btn-primary my-4">save changes</button>
-
-      {%else%}
-      <button class="btn btn-primary my-4">book me</button>
-      {%endif%}
-    </form>
-    {%else%}
-    <div>log in or sign up to book</div>
-    <li><a href="/signup">Sign up</a></li>
-    <li><a href="/login">Log in</a></li>
-    <li><a class="demo" href="/demo">Demo</a></li>
-
-    {%endif%}
   </div>
+
+  <script type="module" src="/static/pet.js"></script>
 </div>
-
-<script type="module" src="/static/pet.js"></script>
-
 <!--  -->
 {%endblock%}

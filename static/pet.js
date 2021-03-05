@@ -10,6 +10,8 @@ async function start() {
   let data = await petApi.getPet(id);
   let pet = data.animal;
   createPet(pet);
+  console.log(data);
+  console.log(data.animal.description);
 }
 
 function createPet(p) {
@@ -25,8 +27,20 @@ function createPet(p) {
 
   $pet.find(".pet-name").text(p.name);
   $pet.find(".pet-breed").text(p.breeds.primary);
-  $pet.find(".pet-gender").text(p.gender);
   $pet.find(".pet-city").text(p.contact.address.city);
+
+  $pet.find(".pet-age").text(p.age);
+  $pet.find(".pet-gender").text(p.gender);
+  $pet.find(".pet-size").text(p.size);
+  let $about = $pet.find(".about");
+  Object.entries(p.attributes).forEach(([obj, val]) => {
+    console.log(obj, val);
+    obj = obj.replace("_", "-");
+    if (val) {
+      $about.append(`<span class="mx-2">${obj}</span>`);
+    }
+  });
+
   $pet.find(".pet-description").text(p.description);
 }
 

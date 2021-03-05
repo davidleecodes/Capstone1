@@ -1,0 +1,71 @@
+:root {
+  --main-bg-color: #f78263;
+  --main-bg-color_dark: #d6694c;
+
+  --main-font: "Quicksand", sans-serif;
+  --bs-primary: #f78263;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem; /* Footer height */
+}
+
+.footer {
+  height: 2.5rem; /* Footer height */
+}
+
+.text-primary {
+  color: var(--main-bg-color) !important;
+}
+
+body {
+  font-family: var(--main-font);
+}
+.pet .card,
+.pet-container {
+  border-radius: 1.25rem;
+}
+
+.pet .card .pet-img {
+  object-fit: cover;
+}
+#pet-list .pet .card .pet-name {
+  color: var(--main-bg-color);
+}
+
+.navbar-light .navbar-brand {
+  color: var(--main-bg-color);
+  font-size: 1.8rem;
+}
+
+.btn-primary,
+.btn-primary:focus {
+  background-color: var(--main-bg-color);
+  border-color: var(--main-bg-color);
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+  background-color: var(--main-bg-color_dark);
+  border-color: var(--main-bg-color_dark);
+}
+
+a:link {
+  text-decoration: none;
+}
+
+.fb-info .card {
+  background-color: var(--main-bg-color);
+  color: white;
+}
+
+footer {
+  background-color: var(--main-bg-color);
+  height: 50px;
+  color: white;
+}
